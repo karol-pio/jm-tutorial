@@ -5,7 +5,8 @@ import org.junit.Test;
 
 public class CalculatorTest {
 
-	private Calculator calculator = new Calculator();;
+	private Calculator calculator = new Calculator();
+	
 
 	@Test
 	public void additionShouldReturnCorrectResult() {
@@ -25,6 +26,7 @@ public class CalculatorTest {
 		// when w osobnej metodzie
 		Double result = calculator.subtract(firstNumber, secondNumber);
 		// then w osobnej metodzie
+		Assert.assertFalse(result.isNaN());
 		Assert.assertTrue(result == -1);
 	}
 
@@ -37,16 +39,30 @@ public class CalculatorTest {
 		// then w osobnej metodzie
 		Assert.assertTrue(result == 30);
 	}
-	
+
+//	@Test(expected=Divisio
 	@Test
 	public void divideShouldReturnCorrectResult() {
 		double firstNumber = 5.0;
-		double secondNumber = 1.0;
-		// when w osobnej metodzie
+		double secondNumber = 0.0;
+		//when w osobnej metodzie
+ 
+		
+		try {
 		Double result = calculator.divide(firstNumber, secondNumber);
+		}
+		catch (Exception e){
+			Assert.assertTrue(e.getClass().equals(DivisorCannotBeZeroException.class));
+			
+		}
 		// then w osobnej metodzie
-		Assert.assertTrue(result == 5);
+		
+	
+		
+//	   Assert.assertThat("failure - can't divide by 0",secondNumber, is(not(0.0)));
+//	   Assert.assertTrue("failure - not equal", Math.divide(firstNumber, secondNumber) == 1.5);
 		
 	}
+
 
 }
