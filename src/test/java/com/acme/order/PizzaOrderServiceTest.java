@@ -2,7 +2,6 @@ package com.acme.order;
 
 import java.util.Date;
 
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +18,6 @@ public class PizzaOrderServiceTest {
 	private MessageTemplateService messageTemplate;
 
 	private PizzaType pizzaType;
-
 
 	@Before
 	public void init() {
@@ -44,8 +42,8 @@ public class PizzaOrderServiceTest {
 		// stub
 		OrderCanceledTemplate template = Mockito.mock(OrderCanceledTemplate.class);
 		Mockito.when(orderDatabase.get(Mockito.anyString())).thenReturn(givenOrder);
-		pizzaOrderService = new PizzaOrderService(mailSender, orderDatabase,
-				orderFactory, deliveryTimeService, messageTemplate);
+		pizzaOrderService = new PizzaOrderService(mailSender, orderDatabase, orderFactory, deliveryTimeService,
+				messageTemplate);
 	}
 
 	@Test
@@ -54,17 +52,15 @@ public class PizzaOrderServiceTest {
 		String pizzaOrderId = "fake_id";
 		PizzaOrder givenPizzaOrder = givenPizzaOrder();
 		// stub
-		OrderCanceledTemplate template = Mockito
-				.mock(OrderCanceledTemplate.class);
-		Mockito.when(orderDatabase.get(Mockito.anyString())).thenReturn(
-				givenPizzaOrder);
+		OrderCanceledTemplate template = Mockito.mock(OrderCanceledTemplate.class);
+		Mockito.when(orderDatabase.get(Mockito.anyString())).thenReturn(givenPizzaOrder);
 
 		Mockito.when(messageTemplate.getCancelTemplate()).thenReturn(template);
 		// when
 		pizzaOrderService.cancelOrder(pizzaOrderId);
 		// then
 
-		Assert.assertTrue(givenOrder.isCancelled());
+		Assert.assertTrue(givenPizzaOrder.isCancelled());
 		ArgumentCaptor<String> sentEmailAddress = ArgumentCaptor.forClass(String.class);
 
 		// Assert.assertTrue(sentEmailAddress.getValue().equals(givenOrder.getEmail()));
@@ -74,7 +70,7 @@ public class PizzaOrderServiceTest {
 		ArgumentCaptor<PizzaOrder> savedPizzaOrder = ArgumentCaptor.forClass(PizzaOrder.class);
 		Mockito.verify(orderDatabase).save(savedPizzaOrder.capture());
 
-		Assert.assertTrue(savedPizzaOrder.getValue().equals(givenOrder));
+		Assert.assertTrue(savedPizzaOrder.getValue().equals(givenPizzaOrder));
 
 		Mockito.verify(orderDatabase).save(Mockito.any(PizzaOrder.class));
 
@@ -97,25 +93,19 @@ public class PizzaOrderServiceTest {
 		// Mockito.verify(mailSender).send(Mockito.any(Template.class),
 		// Mockito.anyString());
 
-		Assert.assertTrue(givenPizzaOrder.isCancelled());
-		ArgumentCaptor<String> sentEmailAddress = ArgumentCaptor
-				.forClass(String.class);
-		Mockito.verify(mailSender).send(Mockito.any(Template.class),
-				sentEmailAddress.capture());
-		Assert.assertTrue(sentEmailAddress.getValue().equals(
-				givenPizzaOrder.getEmail()));
+		Assert.assertTrue(givenPizzaOrder().isCancelled());
+//		ArgumentCaptor<String> sentEmailAddress = ArgumentCaptor.forClass(String.class);
+		Mockito.verify(mailSender).send(Mockito.any(Template.class), sentEmailAddress.capture());
+		Assert.assertTrue(sentEmailAddress.getValue().equals(givenPizzaOrder().getEmail()));
 
-		ArgumentCaptor<PizzaOrder> savedPizzaOrder = ArgumentCaptor
-				.forClass(PizzaOrder.class);
+		ArgumentCaptor<PizzaOrder> savedPizzaOrder = ArgumentCaptor.forClass(PizzaOrder.class);
 		Mockito.verify(orderDatabase).save(savedPizzaOrder.capture());
-		
-		Assert.assertTrue(savedPizzaOrder.getValue().equals(givenPizzaOrder));
 
+		Assert.assertTrue(savedPizzaOrder.getValue().equals(givenPizzaOrder()));
 
 	}
 
 	private PizzaOrder givenPizzaOrder() {
-
 
 		Customer customer = givenCustomer();
 		PizzaType pizzaType = Mockito.mock(PizzaType.class);
@@ -129,17 +119,5 @@ public class PizzaOrderServiceTest {
 		return customer;
 	}
 
-
-		Customer customer = givenCustomer();
-		PizzaType type = Mockito.mock(PizzaType.class);
-		PizzaOrder givenOrder = new PizzaOrder(customer, type);
-		return givenOrder;
-	}
-
-	private Customer givenCustomer() {
-		// String customerEmail = "fake_email";
-		Customer customer = new Customer();
-		return customer;
-	}
 
 }
