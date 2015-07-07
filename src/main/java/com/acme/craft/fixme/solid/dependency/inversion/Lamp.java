@@ -9,18 +9,11 @@ public class Lamp implements SwitchController{
 
 	@Override
 	public void pressSwitch(Switch sw) {
-		// TODO Auto-generated method stub
-		
+		if (sw.isPressed()) {
+			on = true;
+		} else {
+			on = false;
+		}		
 	}
-	
-
-//	@Override
-//	public void pressSwitch(Switch sw) {
-//		if (sw.isPressed()) {
-//			on = false;
-//		} else {
-//			on = true;
-//		}		
-//	}
 	
 }
