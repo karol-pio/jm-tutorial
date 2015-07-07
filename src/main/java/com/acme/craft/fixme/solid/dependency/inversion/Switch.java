@@ -9,12 +9,21 @@ public class Switch {
 		this.lamp = lamp;
 	}
 
-	private void pressSwitch() {
-		pressed = !pressed;
-		if (pressed) {
-			lamp.setOn(true);
-		} else {
-			lamp.setOn(false);
-		}
+	public boolean isPressed() {
+		return pressed;
 	}
+
+	public void setPressed(boolean pressed) {
+		this.pressed = pressed;
+	}
+
+//	private void pressSwitch() {
+//		pressed = !pressed;
+//		if (pressed) {
+//			lamp.setOn(true);
+//		} else {
+//			lamp.setOn(false);
+//		}
+//	}
+
 }

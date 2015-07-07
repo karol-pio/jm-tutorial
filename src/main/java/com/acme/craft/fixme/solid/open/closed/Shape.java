@@ -7,4 +7,7 @@ public class Shape {
 
 	private int type;
 	
+	public void draw() {
+	}
+	
 }
